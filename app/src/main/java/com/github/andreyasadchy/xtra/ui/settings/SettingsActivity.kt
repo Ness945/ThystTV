@@ -1220,8 +1220,54 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class ProxySettingsFragment : MaterialPreferenceFragment() {
+        private val preferenceListener = android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key in proxyPreferenceKeys) updateDiagnostics()
+        }
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.proxy_preferences, rootKey)
+            preferenceManager.sharedPreferences?.registerOnSharedPreferenceChangeListener(preferenceListener)
+            updateDiagnostics()
+        }
+
+        override fun onDestroy() {
+            preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(preferenceListener)
+            super.onDestroy()
+        }
+
+        private fun updateDiagnostics() {
+            val preferences = preferenceManager.sharedPreferences ?: return
+            val diagnostic = ProxyConfiguration(
+                playlistProxyEnabled = preferences.getBoolean(C.PLAYER_STREAM_PROXY, false),
+                playlistUrl = preferences.getString(C.PLAYER_PROXY_URL, null),
+                playbackAccessTokenProxyEnabled = preferences.getBoolean(C.PROXY_PLAYBACK_ACCESS_TOKEN, false),
+                multivariantPlaylistProxyEnabled = preferences.getBoolean(C.PROXY_MULTIVARIANT_PLAYLIST, false),
+                mediaPlaylistProxyEnabled = preferences.getBoolean(C.PROXY_MEDIA_PLAYLIST, true),
+                httpProxyHost = preferences.getString(C.PROXY_HOST, null),
+                httpProxyPort = preferences.getString(C.PROXY_PORT, null),
+            ).diagnostic()
+            findPreference<Preference>("proxy_diagnostics")?.summary = getString(
+                when (diagnostic) {
+                    ProxyConfigurationDiagnostic.DIRECT -> R.string.proxy_diagnostic_direct
+                    ProxyConfigurationDiagnostic.PLAYLIST_PROXY_INCOMPLETE -> R.string.proxy_diagnostic_playlist_incomplete
+                    ProxyConfigurationDiagnostic.HTTP_PROXY_INCOMPLETE -> R.string.proxy_diagnostic_http_incomplete
+                    ProxyConfigurationDiagnostic.PLAYLIST_PROXY_READY -> R.string.proxy_diagnostic_playlist_ready
+                    ProxyConfigurationDiagnostic.HTTP_PROXY_READY -> R.string.proxy_diagnostic_http_ready
+                    ProxyConfigurationDiagnostic.BOTH_PROXIES_READY -> R.string.proxy_diagnostic_both_ready
+                },
+            )
+        }
+
+        private companion object {
+            val proxyPreferenceKeys = setOf(
+                C.PLAYER_STREAM_PROXY,
+                C.PLAYER_PROXY_URL,
+                C.PROXY_PLAYBACK_ACCESS_TOKEN,
+                C.PROXY_MULTIVARIANT_PLAYLIST,
+                C.PROXY_MEDIA_PLAYLIST,
+                C.PROXY_HOST,
+                C.PROXY_PORT,
+            )
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

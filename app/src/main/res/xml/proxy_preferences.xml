@@ -1,6 +1,13 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Preference
+        android:key="proxy_diagnostics"
+        android:summary="@string/proxy_diagnostic_direct"
+        android:title="@string/proxy_diagnostics"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="false" />
+
     <PreferenceCategory
         android:title="@string/settings_group_stream_proxy"
         app:iconSpaceReserved="false">
@@ -75,5 +82,12 @@
             app:singleLineTitle="false" />
 
     </PreferenceCategory>
+
+    <Preference
+        android:selectable="false"
+        android:summary="@string/proxy_scope_notice"
+        android:title="@string/proxy_scope_notice_title"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="false" />
 
 </androidx.preference.PreferenceScreen>
