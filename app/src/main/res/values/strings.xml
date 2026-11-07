@@ -524,6 +524,15 @@
     <string name="proxy_user">Username</string>
     <string name="proxy_password">Password</string>
     <string name="proxy_settings">Proxy settings</string>
+    <string name="proxy_diagnostics" tools:ignore="MissingTranslation">Proxy diagnostics</string>
+    <string name="proxy_diagnostic_direct" tools:ignore="MissingTranslation">Direct ThystTV connection; no proxy option is enabled.</string>
+    <string name="proxy_diagnostic_playlist_incomplete" tools:ignore="MissingTranslation">Playlist proxy is enabled but its URL is missing.</string>
+    <string name="proxy_diagnostic_http_incomplete" tools:ignore="MissingTranslation">HTTP proxy options are enabled but host or port is invalid.</string>
+    <string name="proxy_diagnostic_playlist_ready" tools:ignore="MissingTranslation">Playlist proxy is configured for ThystTV.</string>
+    <string name="proxy_diagnostic_http_ready" tools:ignore="MissingTranslation">HTTP proxy is configured for ThystTV.</string>
+    <string name="proxy_diagnostic_both_ready" tools:ignore="MissingTranslation">Playlist and HTTP proxies are configured for ThystTV.</string>
+    <string name="proxy_scope_notice_title" tools:ignore="MissingTranslation">App-only scope</string>
+    <string name="proxy_scope_notice" tools:ignore="MissingTranslation">These settings apply only to ThystTV playback and downloads. They do not change Android, DNS, VPN, NextDNS, Amazon Shopping, or other apps. Proxy availability and ad behavior depend on the selected service and are not guaranteed.</string>
     <string name="stop_download">Stop download</string>
     <string name="resume_download">Resume download</string>
     <string name="show_view_count_icon">Show view count and uptime icons</string>
